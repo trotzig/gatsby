@@ -48,6 +48,10 @@ matrix:
       env: SRC_PATH='integration-tests/gatsby-image' INTEGRATION_TEST=true INSTALL_COMMAND='install' TEST_COMMAND='test'
       node_js:
         - "lts/*"
+    - name: "Happo Screenshot Tests"
+      env: SRC_PATH='www' INSTALL_COMMAND='install' TEST_COMMAND='happo-ci'
+      node_js:
+        - "lts/*"
 
 cache:
   yarn: true

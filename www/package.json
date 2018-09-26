@@ -89,6 +89,7 @@
     "serve": "gatsby serve",
     "test": "echo \"Error: no test specified\" && exit 1",
     "happo": "happo",
+    "happo-ci": "INSTALL_CMD=\"yarn install && yarn build\" happo-ci-travis",
     "scrapeStarters": "cd src/data/StarterShowcase && node scraper.js"
   },
   "devDependencies": {
