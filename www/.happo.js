@@ -1,14 +1,28 @@
-const path = require('path');
+const path = require('path')
 
-const { RemoteBrowserTarget } = require('happo.io');
-const happoPluginGatsby = require('happo-plugin-gatsby');
+const { RemoteBrowserTarget } = require('happo.io')
+const happoPluginGatsby = require('happo-plugin-gatsby')
 
-const {
-  HAPPO_API_KEY: apiKey,
-  HAPPO_API_SECRET: apiSecret,
-} = process.env;
+const { HAPPO_API_KEY: apiKey, HAPPO_API_SECRET: apiSecret } = process.env
 
-const seenDirs = new Set();
+// Select a few pages we want to include in the Happo test suite. These should
+// represent a good slice of the website and showcase as many UI components as
+// possible.
+const selectedPages = [
+  '/contributors/shannon-soper/', // The contributor page
+  '/blog/tags/react/', // The tag page
+  '/blog/2018-05-31-open-sourcing-gatsby-workshops/', // A blog post
+  '/docs/', // The Getting Started page
+  '/docs/browser-apis/', // This docs page has lists, sublists, code blocks, etc.
+  '/features/', // Lots of graphics on this page
+  '/tutorial/part-two/', // A selected tutorial page
+  '/', // The start page
+  '/plugins/', // The start page for plugins
+  '/packages/gatsby-link/', // The plugin page
+  '/colors/', // Gatsby colors
+  '/showcase/docs.kata.ai/', // A showcase page
+  '/404/', // The not found page
+]
 
 module.exports = {
   apiKey,
@@ -23,17 +37,10 @@ module.exports = {
   },
   plugins: [
     happoPluginGatsby({
-      pageFilter: (pagePath) => {
-        const dir = path.dirname(path.dirname(pagePath));
-        if (seenDirs.has(dir)) {
-          // prevent "duplicate" pages, e.g.
-          // packages/gatsby-plugin-baidu-analytics/index.html and
-          // packages/gatsby-plugin-antd-mobile/index.html
-          return false;
-        }
-        seenDirs.add(dir);
-        return true;
-      },
+      pageFilter: pagePath =>
+        selectedPages.some(
+          selectedPage => pagePath === path.join(__dirname, 'public', selectedPage, 'index.html'),
+        ),
     }),
   ],
-};
+}
